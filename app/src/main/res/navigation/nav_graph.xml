@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
-
     <fragment
         android:id="@+id/eventsFragment"
         android:name="com.example.neformat.ui.EventsFragment"
@@ -14,7 +13,14 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.neformat.ui.FavoritesFragment"
-        android:label="Избранное" />
+        android:label="Избранное"
+        tools:layout="@layout/fragment_favorites">
+
+        <!-- Добавленный переход -->
+        <action
+            android:id="@+id/action_favoritesFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -40,7 +46,10 @@
         <action
             android:id="@+id/action_imageDetailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+
+        <!-- Добавим возврат и в favorites для consistency -->
+        <action
+            android:id="@+id/action_imageDetailFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
     </fragment>
-
-
 </navigation>

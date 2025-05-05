@@ -2,10 +2,18 @@ package com.example.neformat;
 
 public class FavoriteRequest {
     private String firebaseUid;
-    private Long designId;
+    private String imageUrl;  // Изменено с Long designId на String imageUrl
 
-    public FavoriteRequest(String firebaseUid, Long designId) {
+    public FavoriteRequest(String firebaseUid, String imageUrl) {
         this.firebaseUid = firebaseUid;
-        this.designId = designId;
+        this.imageUrl = imageUrl;  // Инициализация imageUrl
+    }
+
+    public String getFirebaseUid() {
+        return firebaseUid;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

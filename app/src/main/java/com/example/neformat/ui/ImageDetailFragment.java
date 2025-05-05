@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.neformat.ApiClient;
 import com.example.neformat.ApiService;
 import com.example.neformat.R;
-import com.example.neformat.Design;
 import com.example.neformat.FavoriteRequest;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -29,7 +28,6 @@ public class ImageDetailFragment extends Fragment {
     private static final String ARG_IMAGE_URL = "imageUrl";
     private static final String ARG_AUTHOR_NAME = "author";
 
-    private Long designId = null;
     private boolean isFavorite = false;
     private ApiService apiService;
     private String firebaseUid;
@@ -63,20 +61,19 @@ public class ImageDetailFragment extends Fragment {
 
         if (imageUrl != null) {
             Glide.with(this).load(imageUrl).into(imageView);
-            fetchDesignId(imageUrl);
         }
 
         backButton.setOnClickListener(v -> requireActivity().onBackPressed());
 
         favoriteButton.setOnClickListener(v -> {
-            if (designId == null) {
+            if (imageUrl == null) {
                 Toast.makeText(getContext(), "Дизайн ещё не загружен", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             isFavorite = !isFavorite;
 
-            FavoriteRequest request = new FavoriteRequest(firebaseUid, designId);
+            FavoriteRequest request = new FavoriteRequest(firebaseUid, imageUrl); // Используем imageUrl вместо designId
 
             if (isFavorite) {
                 favoriteButton.setImageResource(R.drawable.ic_favorite_filled);
@@ -109,29 +106,5 @@ public class ImageDetailFragment extends Fragment {
 
         return view;
     }
-
-    private void fetchDesignId(String imageUrl) {
-        apiService.getDesignByUrl(imageUrl).enqueue(new Callback<Design>() {
-            @Override
-
-            public void onResponse(Call<Design> call, Response<Design> response) {
-                Log.d("GET_DESIGN_BY_URL", "Запрос по imageUrl = " + imageUrl);
-
-                Log.d("SERVER_RESPONSE", "Code: " + response.code());
-                if (response.isSuccessful() && response.body() != null) {
-                    designId = response.body().getId();
-                    Log.d("SERVER_RESPONSE", "Design ID: " + designId);
-                } else {
-                    Log.e("SERVER_RESPONSE", "Design not found: " + response.message());
-                    Toast.makeText(getContext(), "Дизайн не найден", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-
-            @Override
-            public void onFailure(Call<Design> call, Throwable t) {
-                Toast.makeText(getContext(), "Ошибка подключения к серверу", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
+

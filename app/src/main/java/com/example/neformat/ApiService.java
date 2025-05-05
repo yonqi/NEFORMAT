@@ -18,10 +18,10 @@ public interface ApiService {
     @GET("designs/by-url")
     Call<Design> getDesignByUrl(@Query("url") String url);
 
-    @POST("favorites")
+    @POST("api/favorites/add")  // Путь должен совпадать с серверным!
     Call<Void> addToFavorites(@Body FavoriteRequest request);
 
-    @HTTP(method = "DELETE", path = "favorites", hasBody = true)
+    @HTTP(method = "DELETE", path = "api/favorites/remove", hasBody = true)
     Call<Void> removeFromFavorites(@Body FavoriteRequest request);
 }
 
