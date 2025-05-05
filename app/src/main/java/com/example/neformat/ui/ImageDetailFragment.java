@@ -32,6 +32,7 @@ public class ImageDetailFragment extends Fragment {
     private ApiService apiService;
     private String firebaseUid;
     private String imageUrl;
+    private ImageButton favoriteButton;
 
     public static ImageDetailFragment newInstance(String imageUrl, String authorName) {
         ImageDetailFragment fragment = new ImageDetailFragment();
@@ -54,57 +55,88 @@ public class ImageDetailFragment extends Fragment {
 
         ImageView imageView = view.findViewById(R.id.full_image_view);
         ImageButton backButton = view.findViewById(R.id.back_button);
-        ImageButton favoriteButton = view.findViewById(R.id.favorite_button);
+        favoriteButton = view.findViewById(R.id.favorite_button);
         TextView authorTextView = view.findViewById(R.id.author_name);
 
         authorTextView.setText("Автор " + authorName);
 
         if (imageUrl != null) {
             Glide.with(this).load(imageUrl).into(imageView);
+            checkIfFavorite(); // Проверяем при загрузке
         }
 
         backButton.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        favoriteButton.setOnClickListener(v -> {
-            if (imageUrl == null) {
-                Toast.makeText(getContext(), "Дизайн ещё не загружен", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            isFavorite = !isFavorite;
-
-            FavoriteRequest request = new FavoriteRequest(firebaseUid, imageUrl); // Используем imageUrl вместо designId
-
-            if (isFavorite) {
-                favoriteButton.setImageResource(R.drawable.ic_favorite_filled);
-                apiService.addToFavorites(request).enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        Toast.makeText(getContext(), "Добавлено в избранное", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(getContext(), "Ошибка при добавлении", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                favoriteButton.setImageResource(R.drawable.ic_star);
-                apiService.removeFromFavorites(request).enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        Toast.makeText(getContext(), "Удалено из избранного", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(getContext(), "Ошибка при удалении", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+        favoriteButton.setOnClickListener(v -> toggleFavorite());
 
         return view;
     }
-}
 
+    private void checkIfFavorite() {
+        apiService.checkFavorite(firebaseUid, imageUrl).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    isFavorite = response.body();
+                    updateFavoriteButton();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.e("ImageDetail", "Error checking favorite", t);
+            }
+        });
+    }
+
+    private void toggleFavorite() {
+        if (imageUrl == null) {
+            Toast.makeText(getContext(), "Дизайн ещё не загружен", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        isFavorite = !isFavorite;
+        updateFavoriteButton();
+
+        FavoriteRequest request = new FavoriteRequest(firebaseUid, imageUrl);
+
+        if (isFavorite) {
+            apiService.addToFavorites(request).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    Toast.makeText(getContext(), "Добавлено в избранное", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getContext(), "Ошибка при добавлении", Toast.LENGTH_SHORT).show();
+                    revertFavoriteState();
+                }
+            });
+        } else {
+            apiService.removeFromFavorites(request).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    Toast.makeText(getContext(), "Удалено из избранного", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(getContext(), "Ошибка при удалении", Toast.LENGTH_SHORT).show();
+                    revertFavoriteState();
+                }
+            });
+        }
+    }
+
+    private void updateFavoriteButton() {
+        favoriteButton.setImageResource(
+                isFavorite ? R.drawable.ic_favorite_filled : R.drawable.ic_star
+        );
+    }
+
+    private void revertFavoriteState() {
+        isFavorite = !isFavorite;
+        updateFavoriteButton();
+    }
+}

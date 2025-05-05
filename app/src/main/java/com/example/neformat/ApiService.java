@@ -12,6 +12,11 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
+    @GET("api/favorites/check")
+    Call<Boolean> checkFavorite(
+            @Query("firebaseUid") String firebaseUid,
+            @Query("imageUrl") String imageUrl
+    );
     @GET("api/events")
     Call<List<Event>> getEvents();  // Предполагается, что у тебя есть модель Event
 
