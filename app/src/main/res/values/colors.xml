@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="selected_colora">#FFFFFF</color> <!-- Цвет активного элемента -->
+    <color name="unselected_color">#C3C3C3</color> <!-- Цвет неактивных элементов -->
+</resources>

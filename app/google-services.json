@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "196729804395",
+    "project_id": "neformatapp",
+    "storage_bucket": "neformatapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196729804395:android:b53370c31c218e8a7d032e",
+        "android_client_info": {
+          "package_name": "com.example.neformat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5evLgG7PO8XR26NII-Fd_4-XeeAhDRaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

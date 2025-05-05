@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="com.example.neformat.ui.EventsFragment"
+        android:label="Мероприятия" />
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.neformat.ui.FavoritesFragment"
+        android:label="Избранное" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.neformat.ui.ProfileFragment"
+        android:label="Профиль" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.neformat.ui.HomeFragment"
+        android:label="Главная"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="com.example.neformat.ui.ImageDetailFragment"
+        android:label="Image Detail">
+
+        <action
+            android:id="@+id/action_imageDetailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+
+</navigation>

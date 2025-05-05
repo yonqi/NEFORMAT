@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="56dp"
+    android:background="#1A1A1A"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+
+
+        android:padding="8dp">
+
+        <!-- Заголовки -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ПРИВЕТ"
+            android:fontFamily="@font/palui"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="18dp"/>
+
+
+        <!-- Дизайн дня -->
+        <ImageView
+            android:id="@+id/image_of_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="18dp"/>
+
+        <TextView
+            android:id="@+id/title_of_day"
+            android:fontFamily="@font/palui"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Дизайн дня"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:id="@+id/author_of_day"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/palui"
+            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content"
+            android:text="Автор: ..."
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/strela" />
+        <!-- Факт дня -->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp">
+
+            <!-- Клякса: красный фон (можно заменить на drawable/изображение) -->
+
+            <!-- Заголовок "ФАКТ ДНЯ" -->
+
+            <View
+                android:layout_width="300dp"
+                android:layout_height="220dp"
+                android:layout_marginLeft="-40dp"
+                android:layout_marginTop="-36dp"
+                android:layout_marginBottom="-36dp"
+                android:background="@drawable/klyaksa"
+                android:rotation="-35" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ФАКТ ДНЯ"
+                android:fontFamily="@font/palui"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="64dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Текст факта -->
+            <TextView
+                android:id="@+id/fact_of_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="64dp"
+                android:layout_marginTop="36dp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </FrameLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/strela2" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp">
+
+            <!-- Клякса: красный фон (можно заменить на drawable/изображение) -->
+
+            <!-- Заголовок "ФАКТ ДНЯ" -->
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="220dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="-106dp"
+                android:background="@drawable/chel"
+                android:rotation="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="БРУТА
+                ЛЬНЫЕ
+                ЛИНИИ"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/palui"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="-21dp" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="СВОБО
+                ДНЫЕ
+                ИДЕИ"
+                android:layout_alignParentEnd="true"
+                android:gravity="end"
+                android:fontFamily="@font/palui"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="28dp" />
+        </FrameLayout>
+
+        <!-- Контейнер с 2 колонками -->
+        <LinearLayout
+            android:id="@+id/image_columns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:divider="?android:dividerHorizontal"
+            android:showDividers="middle"
+            android:weightSum="2" />
+
+    </LinearLayout>
+</ScrollView>
+
+
+
