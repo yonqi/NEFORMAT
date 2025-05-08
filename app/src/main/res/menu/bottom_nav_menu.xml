@@ -4,10 +4,7 @@
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
         android:title="Главная" />
-    <item
-        android:id="@+id/eventsFragment"
-        android:icon="@drawable/ic_event"
-        android:title="События" />
+
     <item
         android:id="@+id/favoritesFragment"
         android:icon="@drawable/ic_favorite"

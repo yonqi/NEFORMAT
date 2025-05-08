@@ -1,17 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:padding="24dp"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
-
-<Button
-    android:id="@+id/logoutButton"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#111111"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Выйти"
-    android:layout_marginTop="16dp"
-    android:layout_marginHorizontal="32dp" />
+    android:layout_height="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Заголовок -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ПРОФИЛЬ"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/palui"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <!-- Аватар -->
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/default_avatar"
+            android:scaleType="centerCrop"
+            android:background="@drawable/avatar_border"
+            android:padding="8dp" />
+
+        <!-- Имя пользователя -->
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ИМЯ ПОЛЬЗОВАТЕЛЯ"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Кнопки -->
+        <Button
+            android:id="@+id/editProfileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Редактировать профиль"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#222222"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/rounded_button" />
+
+        <Button
+            android:id="@+id/favoritesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Избранное"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_button"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Настройки"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_button"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Выйти"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#880000"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</ScrollView>

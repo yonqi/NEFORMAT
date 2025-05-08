@@ -6,11 +6,6 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/eventsFragment"
-        android:name="com.example.neformat.ui.EventsFragment"
-        android:label="Мероприятия" />
-
-    <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.neformat.ui.FavoritesFragment"
         android:label="Избранное"

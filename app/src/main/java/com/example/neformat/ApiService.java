@@ -17,8 +17,6 @@ public interface ApiService {
             @Query("firebaseUid") String firebaseUid,
             @Query("imageUrl") String imageUrl
     );
-    @GET("api/events")
-    Call<List<Event>> getEvents();  // Предполагается, что у тебя есть модель Event
 
     @GET("designs/by-url")
     Call<Design> getDesignByUrl(@Query("url") String url);

@@ -57,7 +57,7 @@ public class FavoritesFragment extends Fragment {
     }
 
     private void loadFavorites() {
-        String url = "http://localhost:8080/api/favorites/list?firebaseUid=" + firebaseUid;
+        String url = "http://localhost:8080/api/favorites/list-with-author?firebaseUid=" + firebaseUid;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -65,7 +65,7 @@ public class FavoritesFragment extends Fragment {
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject favorite = response.getJSONObject(i);
                             String imageUrl = favorite.getString("imageUrl");
-                            String author = favorite.optString("author", "Неизвестный автор");
+                            String author = favorite.getString("author");
 
                             addImageToColumns(imageUrl, author);
                         }
