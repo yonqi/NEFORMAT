@@ -9,6 +9,9 @@
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#FFFFFF</item> <!-- безопасно -->
         <item name="colorControlHighlight">#00000000</item> <!-- отключает подсветку -->
+        <item name="android:statusBarColor">#1a1a1a</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- true = тёмный текст, false = светлый -->
+
     </style>
 
     <style name="Theme.NEFORMAT" parent="Base.Theme.NEFORMAT" />

@@ -2,7 +2,10 @@ package com.example.neformat.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.neformat.MainActivity;
 import com.example.neformat.R;
@@ -15,6 +18,8 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.status_bar_color));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

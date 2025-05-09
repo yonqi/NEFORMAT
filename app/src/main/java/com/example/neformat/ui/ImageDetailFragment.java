@@ -1,6 +1,9 @@
 package com.example.neformat.ui;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,8 +70,46 @@ public class ImageDetailFragment extends Fragment {
 
         backButton.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        favoriteButton.setOnClickListener(v -> toggleFavorite());
+        favoriteButton = view.findViewById(R.id.favorite_button);
+        TextView favoriteText = view.findViewById(R.id.favorite_text);
 
+        favoriteButton.setOnClickListener(v -> {
+            // Вибрация
+            Vibrator vibrator = (Vibrator) requireContext().getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
+
+            // Анимация вращения и обновление
+            favoriteButton.animate()
+                    .rotationBy(isFavorite ? -360f : 360f)
+                    .setDuration(500)
+                    .withEndAction(this::toggleFavorite)
+                    .start();
+
+            // Показ текста
+            int colorRes = isFavorite ? R.color.gray : R.color.red;
+            favoriteText.setTextColor(getResources().getColor(colorRes, null));
+
+            String message = isFavorite ?  "Удалено\nиз избранного" : "Добавлено\nв избранное";
+            favoriteText.setText(message);
+            favoriteText.setVisibility(View.VISIBLE);
+            favoriteText.setAlpha(0f);
+            favoriteText.animate()
+                    .alpha(1f)
+                    .setDuration(300)
+                    .withEndAction(() -> favoriteText.postDelayed(() -> {
+                        favoriteText.animate()
+                                .alpha(0f)
+                                .setDuration(300)
+                                .withEndAction(() -> favoriteText.setVisibility(View.GONE))
+                                .start();
+                    }, 1500))
+                    .start();
+
+        });
+
+        checkIfFavorite();
         return view;
     }
 
@@ -84,14 +125,14 @@ public class ImageDetailFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Log.e("ImageDetail", "Error checking favorite", t);
+                Log.e("ImageDetail", "Ошибка при проверке избранного", t);
             }
         });
     }
 
     private void toggleFavorite() {
         if (imageUrl == null) {
-            Toast.makeText(getContext(), "Дизайн ещё не загружен", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Изображение не загружено", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -104,7 +145,7 @@ public class ImageDetailFragment extends Fragment {
             apiService.addToFavorites(request).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
-                    Toast.makeText(getContext(), "Добавлено в избранное", Toast.LENGTH_SHORT).show();
+                    // Успешно добавлено
                 }
 
                 @Override
@@ -117,7 +158,7 @@ public class ImageDetailFragment extends Fragment {
             apiService.removeFromFavorites(request).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
-                    Toast.makeText(getContext(), "Удалено из избранного", Toast.LENGTH_SHORT).show();
+                    // Успешно удалено
                 }
 
                 @Override
@@ -131,7 +172,7 @@ public class ImageDetailFragment extends Fragment {
 
     private void updateFavoriteButton() {
         favoriteButton.setImageResource(
-                isFavorite ? R.drawable.ic_favorite_filled : R.drawable.ic_star
+                isFavorite ? R.drawable.star : R.drawable.ic_star
         );
     }
 

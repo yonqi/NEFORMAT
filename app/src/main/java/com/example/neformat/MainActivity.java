@@ -2,8 +2,10 @@ package com.example.neformat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -21,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
 
+        Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.status_bar_color));
+
+
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
@@ -29,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
             bottomNav.setItemHorizontalTranslationEnabled(false);
 
             NavigationUI.setupWithNavController(bottomNav, navController);
+
+
         }
     }
 

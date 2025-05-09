@@ -17,17 +17,41 @@
         android:src="@drawable/ic_arrow_back"
         android:contentDescription="Назад" />
 
-    <!-- Кнопка "Добавить в избранное" -->
-    <ImageButton
-        android:id="@+id/favorite_button"
-        android:layout_width="40dp"
+    <RelativeLayout
+        android:id="@+id/favorite_container"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_star"
-        android:contentDescription="Добавить в избранное" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/favorite_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/palui"
+            android:layout_toStartOf="@id/favorite_button"
+            android:text="Добавлено\n в избранное"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Избранное"
+            android:src="@drawable/ic_star" />
+    </RelativeLayout>
+
+
+
 
     <!-- Изображение дизайна -->
     <com.google.android.material.imageview.ShapeableImageView

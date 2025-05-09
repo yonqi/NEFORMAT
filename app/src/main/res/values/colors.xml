@@ -4,4 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="selected_colora">#FFFFFF</color> <!-- Цвет активного элемента -->
     <color name="unselected_color">#C3C3C3</color> <!-- Цвет неактивных элементов -->
+    <color name="red">#E53935</color>
+    <color name="gray">#757575</color>
+    <color name="status_bar_color">#1a1a1a</color> <!-- или любой другой -->
+
+
 </resources>
