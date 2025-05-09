@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -29,7 +31,6 @@ import java.io.IOException;
 
 import okhttp3.*;
 import org.json.JSONObject;
-
 public class EditProfileFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -55,18 +56,36 @@ public class EditProfileFragment extends Fragment {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        // 1. Загружаем из SharedPreferences
+        SharedPreferences prefs = requireContext().getSharedPreferences("profile", Context.MODE_PRIVATE);
+        String cachedName = prefs.getString("name", null);
+        String cachedAvatar = prefs.getString("avatar", null);
+
+        if (cachedName != null) {
+            nameEditText.setText(cachedName);
+        }
+
+        if (cachedAvatar != null && !cachedAvatar.isEmpty()) {
+            Glide.with(requireContext()).load(cachedAvatar).into(avatarPreview);
+        }
+
+        // 2. Загружаем из Firebase и обновляем кэш
         if (user != null) {
             userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
-            // Загрузка текущего имени и аватарки
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String name = snapshot.child("name").getValue(String.class);
                     String avatar = snapshot.child("avatar").getValue(String.class);
 
-                    if (name != null) nameEditText.setText(name);
+                    if (name != null) {
+                        nameEditText.setText(name);
+                        prefs.edit().putString("name", name).apply();
+                    }
+
                     if (avatar != null && !avatar.isEmpty()) {
                         Glide.with(requireContext()).load(avatar).into(avatarPreview);
+                        prefs.edit().putString("avatar", avatar).apply();
                     }
                 }
 
@@ -81,9 +100,17 @@ public class EditProfileFragment extends Fragment {
             if (!name.isEmpty()) {
                 userRef.child("name").setValue(name);
                 saveToPrefs("name", name);
+
+                // Скрываем клавиатуру
+                InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(nameEditText.getWindowToken(), 0);
+                }
+
                 Toast.makeText(getContext(), "Имя обновлено", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         uploadAvatarButton.setOnClickListener(v -> openImagePicker());
 
@@ -96,6 +123,7 @@ public class EditProfileFragment extends Fragment {
 
         return view;
     }
+
 
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);

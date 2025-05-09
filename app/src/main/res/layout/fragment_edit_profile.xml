@@ -1,62 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profileScrollView"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#111111"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
 
-        <!-- Кнопка назад -->
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Назад"
-            android:tint="#FFFFFF" />
-
-        <!-- Имя -->
-        <EditText
-            android:id="@+id/nameEditText"
+        <!-- Назад и заголовок -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Введите имя"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#FFFFFF"
-            android:textColorHint="#AAAAAA"
+            android:orientation="horizontal"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical">
 
-        <Button
-            android:id="@+id/saveNameButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Сохранить имя"
-            android:backgroundTint="#333333"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="24dp" />
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="-14dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Назад"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="-26dp"
+                android:gravity="center"
+                android:fontFamily="@font/palui"
+                android:text="ПРОФИЛЬ"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <!-- Аватарка -->
         <ImageView
             android:id="@+id/avatarPreview"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/avatar_border"
+            android:padding="8dp"
             android:scaleType="centerCrop"
-            android:layout_marginBottom="16dp"
             android:src="@drawable/default_avatar" />
 
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveAvatarButton"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:text="Загрузить аватар"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp"
+            app:cornerRadius="50dp"
+            android:backgroundTint="@android:color/transparent" />
+
+        <!-- Имя -->
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Загрузить аватар с устройства"
-            android:backgroundTint="#333333"
-            android:textColor="#FFFFFF" />
+            android:hint="Введите имя"
+            android:fontFamily="@font/webserveroff"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:backgroundTint="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Кнопка сохранения имени -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveNameButton"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:text="Сохранить имя"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp"
+            app:cornerRadius="50dp"
+            android:layout_marginBottom="100dp"
+            android:backgroundTint="@android:color/transparent" />
+
+
     </LinearLayout>
 </ScrollView>
