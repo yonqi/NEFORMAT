@@ -31,4 +31,11 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(bottomNav, navController);
         }
     }
+
+    public void openFavoritesFromOutside() {
+        BottomNavigationView navView = findViewById(R.id.bottomNavigationView); // или твой ID
+        navView.setSelectedItemId(R.id.favoritesFragment);
+    }
+
 }
+

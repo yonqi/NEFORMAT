@@ -12,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.example.neformat.MainActivity;
 import com.example.neformat.R;
 import com.example.neformat.ui.auth.AuthActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -112,10 +114,37 @@ public class ProfileFragment extends Fragment {
 
         // Выход
         logoutButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(getActivity(), AuthActivity.class));
-            requireActivity().finish();
+            View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_logout, null);
+            AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                    .setView(dialogView)
+                    .create();
+
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // прозрачный фон
+
+            Button confirmButton = dialogView.findViewById(R.id.confirmButton);
+            Button cancelButton = dialogView.findViewById(R.id.cancelButton);
+
+            confirmButton.setOnClickListener(vyiew -> {
+                dialog.dismiss();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getActivity(), AuthActivity.class));
+                requireActivity().finish();
+            });
+
+            cancelButton.setOnClickListener(vyiew -> dialog.dismiss());
+
+            dialog.show();
         });
+
+
+        Button favoritesButton = view.findViewById(R.id.favoritesButton);
+        favoritesButton.setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).openFavoritesFromOutside();
+            }
+        });
+
+
 
         return view;
     }
