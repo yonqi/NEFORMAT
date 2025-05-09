@@ -2,29 +2,55 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="#111111">
 
     <LinearLayout
-        android:id="@+id/favorites_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Левая колонка -->
-        <LinearLayout
-            android:id="@+id/left_column"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" />
+        <!-- Заголовок -->
 
-        <!-- Правая колонка -->
-        <LinearLayout
-            android:id="@+id/right_column"
-            android:layout_width="0dp"
+        <!-- Контейнер избранного -->
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" />
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/palui"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text="Твои\nсокров\nища мира\nискусства"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/favorites_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="56dp">
+
+            <!-- Левая колонка -->
+            <LinearLayout
+                android:id="@+id/left_column"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <!-- Правая колонка -->
+            <LinearLayout
+                android:id="@+id/right_column"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
