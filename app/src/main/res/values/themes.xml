@@ -4,6 +4,12 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#000000</item> <!-- не фиолетовый -->
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#FFFFFF</item> <!-- безопасно -->
+        <item name="colorControlHighlight">#00000000</item> <!-- отключает подсветку -->
+    </style>
 
     <style name="Theme.NEFORMAT" parent="Base.Theme.NEFORMAT" />
 </resources>

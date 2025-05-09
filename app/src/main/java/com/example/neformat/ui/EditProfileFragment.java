@@ -1,101 +1,177 @@
 package com.example.neformat.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.example.neformat.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
+
+import okhttp3.*;
+import org.json.JSONObject;
 
 public class EditProfileFragment extends Fragment {
 
-    private EditText nameEditText, avatarUrlEditText;
-    private Button saveNameButton, saveAvatarButton;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final String IMGBB_API_KEY = "fe78c0408a647a394434495a82abf60b";
 
+    private EditText nameEditText;
+    private Button saveNameButton, uploadAvatarButton;
+    private ImageView avatarPreview;
+    private ImageButton backButton;
+
+    private FirebaseUser user;
     private DatabaseReference userRef;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
         nameEditText = view.findViewById(R.id.nameEditText);
-        avatarUrlEditText = view.findViewById(R.id.avatarUrlEditText);
         saveNameButton = view.findViewById(R.id.saveNameButton);
-        saveAvatarButton = view.findViewById(R.id.saveAvatarButton);
+        uploadAvatarButton = view.findViewById(R.id.saveAvatarButton);
+        avatarPreview = view.findViewById(R.id.avatarPreview);
+        backButton = view.findViewById(R.id.back_button);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user != null) {
             userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
-            // Загрузка данных из Firebase
+            // Загрузка текущего имени и аватарки
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String name = snapshot.child("name").getValue(String.class);
                     String avatar = snapshot.child("avatar").getValue(String.class);
 
                     if (name != null) nameEditText.setText(name);
-                    if (avatar != null) avatarUrlEditText.setText(avatar);
+                    if (avatar != null && !avatar.isEmpty()) {
+                        Glide.with(requireContext()).load(avatar).into(avatarPreview);
+                    }
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                @Override public void onCancelled(@NonNull DatabaseError error) {
                     Toast.makeText(getContext(), "Ошибка загрузки профиля", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            ImageButton backButton = view.findViewById(R.id.back_button);
-            backButton.setOnClickListener(v -> {
-                // Возвращаем на фрагмент профиля
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, new ProfileFragment());
-                transaction.addToBackStack("profile"); // добавляем в стек
-                transaction.commit();
-            });
-
-            saveNameButton.setOnClickListener(v -> {
-                String name = nameEditText.getText().toString().trim();
-                if (TextUtils.isEmpty(name)) {
-                    nameEditText.setError("Введите имя");
-                } else {
-                    userRef.child("name").setValue(name);
-                    saveToPrefs("name", name); // кешируем
-                    Toast.makeText(getContext(), "Имя обновлено", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            saveAvatarButton.setOnClickListener(v -> {
-                String avatarUrl = avatarUrlEditText.getText().toString().trim();
-                if (TextUtils.isEmpty(avatarUrl)) {
-                    avatarUrlEditText.setError("Введите ссылку или оставьте поле пустым");
-                } else {
-                    userRef.child("avatar").setValue(avatarUrl);
-                    saveToPrefs("avatar", avatarUrl); // кешируем
-                    Toast.makeText(getContext(), "Аватар обновлён", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+        saveNameButton.setOnClickListener(v -> {
+            String name = nameEditText.getText().toString().trim();
+            if (!name.isEmpty()) {
+                userRef.child("name").setValue(name);
+                saveToPrefs("name", name);
+                Toast.makeText(getContext(), "Имя обновлено", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        uploadAvatarButton.setOnClickListener(v -> openImagePicker());
+
+        backButton.setOnClickListener(v -> {
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, new ProfileFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
         return view;
+    }
+
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Выберите изображение"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            avatarPreview.setImageURI(imageUri);
+            uploadImageToImgbb(imageUri);
+        }
+    }
+
+    private void uploadImageToImgbb(Uri imageUri) {
+        try {
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(imageUri);
+            byte[] imageBytes = getBytes(inputStream);
+            String base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+            OkHttpClient client = new OkHttpClient();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("key", IMGBB_API_KEY)
+                    .add("image", base64Image)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("https://api.imgbb.com/1/upload")
+                    .post(formBody)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Ошибка загрузки", Toast.LENGTH_SHORT).show());
+                }
+
+                @Override public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String body = response.body().string();
+                        try {
+                            JSONObject json = new JSONObject(body);
+                            String url = json.getJSONObject("data").getString("url");
+
+                            if (user != null) {
+                                userRef.child("avatar").setValue(url);
+                                saveToPrefs("avatar", url);
+
+                                requireActivity().runOnUiThread(() -> {
+                                    Glide.with(requireContext()).load(url).into(avatarPreview);
+                                    Toast.makeText(getContext(), "Аватар обновлён", Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Ошибка загрузки", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[4096];
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        return buffer.toByteArray();
     }
 
     private void saveToPrefs(String key, String value) {
