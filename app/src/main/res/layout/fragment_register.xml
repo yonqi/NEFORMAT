@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#1A1A1A"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,64 +11,109 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Регистрация"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="50dp" />
+
+        <!-- Поля ввода -->
         <EditText
             android:id="@+id/nameEditText"
             android:hint="Ваше имя"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_text_background"
             android:textColorHint="#AAAAAA"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#555555"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
 
         <EditText
             android:id="@+id/emailEditText"
-            android:hint="Email"
+            android:hint="E-mail"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_text_background"
             android:textColorHint="#AAAAAA"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#555555"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:padding="12dp"
             android:inputType="textEmailAddress"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="12dp" />
 
         <EditText
             android:id="@+id/passwordEditText"
             android:hint="Пароль"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_text_background"
             android:textColorHint="#AAAAAA"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#555555"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:padding="12dp"
             android:inputType="textPassword"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="12dp" />
 
         <EditText
             android:id="@+id/confirmPasswordEditText"
             android:hint="Подтвердите пароль"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_text_background"
             android:textColorHint="#AAAAAA"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#555555"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Кастомная галочка -->
+        <RelativeLayout
+        android:id="@+id/privacyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:id="@+id/customCheckbox"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/custom_checkbox_selector"
+            android:contentDescription="Checkbox" />
+
+        <TextView
+            android:id="@+id/privacyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:layout_marginBottom="16dp" />
-
-        <CheckBox
-            android:id="@+id/privacyCheckBox"
+            android:layout_toEndOf="@id/customCheckbox"
             android:text="Я даю свое согласие на обработку персональных данных, принимаю политику в отношении обработки персональных данных и пользовательское соглашение"
             android:textColor="#CCCCCC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp" />
+            android:textSize="12sp" />
+    </RelativeLayout>
 
-        <Button
+
+        <!-- Кнопка -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/registerButton"
-            android:text="Зарегистрироваться"
-            android:backgroundTint="#43A047"
-            android:textColor="#FFFFFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="50dp"
+            android:text="Зарегистрироваться"
+            android:textColor="@color/gray"
+            android:layout_marginTop="100dp"
+            app:strokeColor="@color/gray"
+            app:strokeWidth="1dp"
+            app:cornerRadius="50dp"
+            android:enabled="false"
+            android:backgroundTint="@android:color/transparent" />
+
 
         <TextView
             android:id="@+id/toLogin"

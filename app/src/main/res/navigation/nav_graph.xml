@@ -6,45 +6,52 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.example.neformat.ui.FavoritesFragment"
-        android:label="Избранное"
-        tools:layout="@layout/fragment_favorites">
-
-        <!-- Добавленный переход -->
-        <action
-            android:id="@+id/action_favoritesFragment_to_imageDetailFragment"
-            app:destination="@id/imageDetailFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.neformat.ui.ProfileFragment"
-        android:label="Профиль" />
-
-    <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.neformat.ui.HomeFragment"
+        android:name="com.example.neformat.presentation.view.profile.HomeFragment"
         android:label="Главная"
         tools:layout="@layout/fragment_home">
-
         <action
             android:id="@+id/action_homeFragment_to_imageDetailFragment"
             app:destination="@id/imageDetailFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/imageDetailFragment"
-        android:name="com.example.neformat.ui.ImageDetailFragment"
-        android:label="Image Detail">
+        android:id="@+id/profileFragment"
+        android:name="com.example.neformat.presentation.view.profile.ProfileFragment"
+        android:label="Профиль"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.neformat.presentation.view.profile.FavoritesFragment"
+        android:label="Избранное"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.neformat.presentation.view.profile.EditProfileFragment"
+        android:label="Редактирование профиля"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="com.example.neformat.presentation.view.profile.ImageDetailFragment"
+        android:label="Детали изображения"
+        tools:layout="@layout/fragment_image_detail">
         <action
             android:id="@+id/action_imageDetailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-
-        <!-- Добавим возврат и в favorites для consistency -->
         <action
             android:id="@+id/action_imageDetailFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
     </fragment>
+
 </navigation>

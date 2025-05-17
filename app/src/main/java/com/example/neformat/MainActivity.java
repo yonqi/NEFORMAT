@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
-
-            // Убираем анимацию смены иконок
             bottomNav.setItemHorizontalTranslationEnabled(false);
 
             NavigationUI.setupWithNavController(bottomNav, navController);
